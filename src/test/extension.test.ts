@@ -1,12 +1,12 @@
 import * as assert from "assert";
 import * as vscode from "vscode";
-import * as myExtension from "../extension";
+import { getCommentPrefix } from "../utils";
 
 suite("Extension Tests", function () {
   test("Comment Prefix is Correct", function () {
-    assert.strictEqual(myExtension.getCommentPrefix("javascript"), "//");
-    assert.strictEqual(myExtension.getCommentPrefix("python"), "# ");
-    assert.strictEqual(myExtension.getCommentPrefix("plaintext"), "//");
+    assert.strictEqual(getCommentPrefix("javascript"), "//");
+    assert.strictEqual(getCommentPrefix("python"), "# ");
+    assert.strictEqual(getCommentPrefix("plaintext"), "//");
   });
 
   test("Adds Filename to Code", async function () {

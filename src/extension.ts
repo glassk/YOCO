@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
+import { getCommentPrefix } from "./utils";
 
 export function activate(context: vscode.ExtensionContext) {
-  const disposable = vscode.commands.registerCommand("extension.addFilenameToCode", () => {
+  const disposable = vscode.commands.registerCommand("extension.addFileNameCommentAndCopy", () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
       vscode.window.showInformationMessage("No editor is active");
@@ -14,16 +15,15 @@ export function activate(context: vscode.ExtensionContext) {
     const fileName = document.fileName.split("/").pop() || "unknown_file";
 
     const commentPrefix = getCommentPrefix(document.languageId);
-    const commentedFilename = `${commentPrefix} ${fileName}\n`;
-    const newText = `${commentedFilename}${selectedText}`;
+    const selectedTextWithFileNameComment = `${commentPrefix} ${fileName}\n${selectedText}`;
 
     editor
       .edit(editBuilder => {
-        editBuilder.replace(selection, newText);
+        editBuilder.replace(selection, selectedTextWithFileNameComment);
       })
       .then(success => {
         if (success) {
-          vscode.env.clipboard.writeText(newText);
+          vscode.env.clipboard.writeText(selectedTextWithFileNameComment);
           vscode.window.showInformationMessage("Filename added and copied to clipboard!");
         } else {
           vscode.window.showErrorMessage("Failed to add filename");
@@ -32,18 +32,6 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   context.subscriptions.push(disposable);
-}
-
-export function getCommentPrefix(languageId: string): string {
-  switch (languageId) {
-    case "javascript":
-    case "typescript":
-      return "//";
-    case "python":
-      return "# ";
-    default:
-      return "//";
-  }
 }
 
 export function deactivate() {}
