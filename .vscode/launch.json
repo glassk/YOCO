@@ -7,8 +7,10 @@
 	"configurations": [
 		{
 			"name": "Run Extension",
-			"type": "extensionHost",
+			"type": "node",
 			"request": "launch",
+      "program": "${workspaceFolder}/runTest.js",
+      "console": "integratedTerminal",
 			"args": [
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],

@@ -11,13 +11,15 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand::YOCO.addFileNameCommentAndCopy"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "YOCO.helloWorld",
-        "title": "Hello World"
+        "command": "YOCO.addFileNameCommentAndCopy",
+        "title": "Add Filename Comment and Copy"
       }
     ]
   },
@@ -27,7 +29,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test:vscode": "vscode-test",
+    "test:vscode": "rm -rf out && yarn compile && vscode-test",
     "test:jest": "jest",
     "lint-staged": "lint-staged",
     "prepare": "husky"
