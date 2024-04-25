@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getCommentPrefix } from "./utils";
+import { generateFileNameComment, LanguageId } from "./utils";
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand("extension.addFileNameCommentAndCopy", () => {
@@ -14,8 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
     const selectedText = document.getText(selection);
     const fileName = document.fileName.split("/").pop() || "unknown_file";
 
-    const commentPrefix = getCommentPrefix(document.languageId);
-    const selectedTextWithFileNameComment = `${commentPrefix} ${fileName}\n${selectedText}`;
+    const fileNameComment = generateFileNameComment(document.languageId as LanguageId, fileName);
+    const selectedTextWithFileNameComment = `${fileNameComment}\n${selectedText}`;
 
     editor
       .edit(editBuilder => {
